@@ -4,7 +4,7 @@ import torch_utils
 def openings_prediction(input_1, input_2):
 
   # Load the machine learning model
-  model = torch_utils.OpeningsPredictor
+  model = torch_utils.openings_predictor
   model.load_state_dict(torch.load("/models/openings.pth"))
 
   # Make predictions
@@ -21,7 +21,7 @@ def footprint_prediction(image):
   processed_image = image.resize((256, 256))
 
     # Load the machine learning model
-  model = torch_utils.FootprintGenerator
+  model = torch_utils.footprint_generator
   model.load_state_dict(torch.load("/models/footprint.pth"))
 
   # Make predictions
@@ -38,7 +38,7 @@ def circulation_prediction(image):
   processed_image = image.resize((256, 256))
 
     # Load the machine learning model
-  model = torch_utils.CirculationDetector
+  model = torch_utils.circulation_detector
   model.load_state_dict(torch.load("/models/footprint.pth"))
 
   # Make predictions
