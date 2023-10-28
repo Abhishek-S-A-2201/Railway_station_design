@@ -28,14 +28,12 @@ if function_selection == 'Openings Prediction':
 
   # If the user clicks the "Predict" button, make a prediction
   if st.button('Predict'):
-    predictions = openings_prediction(space, room_size, capacity, user_per_min)
-
-    for prediction in predictions:
-      # Display the predictions
-      st.write('Predictions:')
-      st.write(f'No of openings: {torch.round(prediction[0]).type(torch.int).item()}')
-      for i in range(torch.round(prediction[0]).type(torch.int).item()):
-        st.write(f'Width {i+1}: {prediction[i+1].item():.2f}')
+    prediction = openings_prediction(space, room_size, capacity, user_per_min)
+    # Display the predictions
+    st.write('Predictions:')
+    st.write(f'No of openings: {prediction[0]}')
+    for i in range(prediction[0]):
+      st.write(f'Width {i+1}: {prediction[i+1]:.2f}')
 
 # elif function_selection == 'Footprint Generation':
 #   # Display the image upload field

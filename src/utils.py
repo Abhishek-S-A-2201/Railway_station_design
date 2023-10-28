@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 import joblib
 import pandas as pd
+import numpy as np
 
 # device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
 device = "cpu"
@@ -22,14 +23,20 @@ def openings_prediction(space, room_size, capacity, user_per_min):
       'capacity': capacity, 
       'user_per_min': user_per_min
   }, index=[0])
+    
   # Make predictions
   model.eval()
   with torch.inference_mode():
-    input_preped = torch.Tensor(pipeline.transform(inputs)).to(device)
-    predictions = model(input_preped).to(device)
+    input_prepped = torch.Tensor(pipeline.transform(inputs)).to(device)
+    predictions = model(input_prepped).to(device)
+    val = [0]*6
+    for prediction in predictions[:10]:
+      val[0] = torch.argmax(prediction[5:]).type(torch.int).item() + 1
+      for i in range(val[0]):
+        val[i+1] = np.round(prediction[i].cpu().numpy(), 2)
 
   # Return the predictions
-  return predictions
+  return val
 
 def footprint_prediction(image):
   
